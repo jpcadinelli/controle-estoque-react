@@ -6,15 +6,11 @@ const api = axios.create({
 });
 
 export const getUsuarioLogado = async () => {
-    // Recuperando o token do cookie
     const retrievedToken: string | undefined = Cookies.get('token');
-
     if (!retrievedToken) {
         throw new Error('Token não encontrado');
     }
-
     try {
-        // Incluindo o token no cabeçalho da requisição
         const response = await api.get('/usuarios/logado', {
             headers: {
                 Authorization: `Bearer ${retrievedToken}`

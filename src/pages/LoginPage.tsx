@@ -13,12 +13,7 @@ const LoginPage: React.FC = () => {
         setError(null);
         try {
             const token = await authService.login(email, password);
-            localStorage.setItem('authToken', token);
-            console.log(token);
-
-            // Salvando o token no cookie com configuração de segurança
             Cookies.set('token', token, { expires: 1, secure: true, sameSite: 'Strict' });
-
             window.location.href = '/success';
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
