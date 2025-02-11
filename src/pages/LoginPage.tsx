@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import authService from '../services/authServices';
 import './LoginPage.css';
+import Cookies from 'js-cookie'
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -13,6 +14,11 @@ const LoginPage: React.FC = () => {
         try {
             const token = await authService.login(email, password);
             localStorage.setItem('authToken', token);
+            console.log(token);
+
+            // Salvando o token no cookie com configuração de segurança
+            Cookies.set('token', token, { expires: 1, secure: true, sameSite: 'Strict' });
+
             window.location.href = '/success';
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {

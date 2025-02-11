@@ -11,7 +11,7 @@ export const login = async (email: string, password: string) => {
             password,
         });
         console.log('Resposta do backend:', response.data);
-        return response.data;
+        return response.data.data;
     } catch (err) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
