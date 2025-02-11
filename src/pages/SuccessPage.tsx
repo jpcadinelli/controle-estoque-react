@@ -1,20 +1,31 @@
-import React from 'react';
-import Cookies from 'js-cookie'
+import React, { useEffect, useState } from 'react';
+import getUsuarioLogadoServices from '../services/getUsuarioLogadoServices';
 
 const SuccessPage: React.FC = () => {
-    // Recuperando o token do cookie
-    const retrievedToken: string | undefined = Cookies.get('token');
+    const [error, setError] = useState<string | null>(null);
+    const [usuario, setUsuario] = useState<{ primeiroNome: string; ultimoNome: string } | null>(null);
 
-    if (retrievedToken) {
-        console.log('Token recuperado:', retrievedToken);
-    } else {
-        console.log('Nenhum token encontrado.');
-    }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const usuario = await getUsuarioLogadoServices.getUsuarioLogado();
+                setUsuario(usuario);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            } catch (err) {
+                setError('Falha ao fazer login. Verifique suas credenciais.');
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <div className="success-container">
             <h1>Login bem-sucedido!</h1>
-            <p>Bem-vindo à aplicação.</p>
+            {usuario && (
+                <p>Bem-vindo à aplicação, {usuario.primeiroNome} {usuario.ultimoNome}.</p>
+            )}
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 };
