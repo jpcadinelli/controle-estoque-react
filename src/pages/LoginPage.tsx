@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import authService from '../services/authServices';
 import './LoginPage.css';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 import AuthPopup from '../components/authPopups.tsx'
+import getUsuarioLogadoServices from "../services/getUsuarioLogadoServices.ts";
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -10,6 +12,23 @@ const LoginPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkToken = async () => {
+            const token = Cookies.get('token');
+            if (token) {
+                try {
+                    await getUsuarioLogadoServices.getUsuarioLogado();
+                    navigate('/success');
+                } catch (error) {
+                    console.log('Token inválido ou erro ao verificar:', error);
+                }
+            }
+        };
+
+        checkToken();
+    }, [navigate]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,10 +38,9 @@ const LoginPage: React.FC = () => {
             Cookies.set('token', token, { expires: 1, secure: true, sameSite: 'Strict' });
             setMessage('Login realizado com sucesso!');
             setShowPopup(true);
-            window.location.href = '/success';
+            navigate('/success');
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
-            // setError('Falha ao fazer login. Verifique suas credenciais.');
             setMessage('Falha ao fazer login. Verifique suas credenciais.');
             setShowPopup(true);
         }
