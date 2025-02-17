@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import getUsuarioLogadoServices from '../services/getUsuarioLogadoServices';
+import {useNavigate} from "react-router-dom";
 
 const SuccessPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [usuario, setUsuario] = useState<{ primeiroNome: string; ultimoNome: string } | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -12,12 +14,13 @@ const SuccessPage: React.FC = () => {
                 setUsuario(usuario);
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
-                setError('Falha ao fazer login. Verifique suas credenciais.');
+                navigate('/');
+                setError('Token inválido, faça login novamente.'); //como mando esse erro para a tela de login?
             }
         };
 
         fetchData();
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="success-container">
