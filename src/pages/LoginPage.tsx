@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
             if (token) {
                 try {
                     await getUsuarioLogadoServices.getUsuarioLogado();
-                    navigate('/success');
+                    navigate('/dashboard');
                 } catch (error) {
                     console.log('Token inválido ou erro ao verificar:', error);
                 }
@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
             Cookies.set('token', token, { expires: 1, secure: true, sameSite: 'Strict' });
             setMessage('Login realizado com sucesso!');
             setShowPopup(true);
-            navigate('/success');
+            navigate('/dashboard');
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
             setMessage('Falha ao fazer login. Verifique suas credenciais.');

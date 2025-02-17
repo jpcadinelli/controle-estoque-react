@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import getUsuarioLogadoServices from '../services/getUsuarioLogadoServices';
 import {useNavigate} from "react-router-dom";
 
-const SuccessPage: React.FC = () => {
+const DashboardPage: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [usuario, setUsuario] = useState<{ primeiroNome: string; ultimoNome: string } | null>(null);
     const navigate = useNavigate();
@@ -33,4 +33,4 @@ const SuccessPage: React.FC = () => {
     );
 };
 
-export default SuccessPage;
+export default DashboardPage;

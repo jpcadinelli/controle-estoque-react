@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
-import SuccessPage from './pages/SuccessPage';
+import DashboardPage from './pages/DashboardPage.tsx';
 
 const App: React.FC = () => {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<LoginPage />} />
-                <Route path="/success" element={<SuccessPage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
             </Routes>
         </Router>
     );
